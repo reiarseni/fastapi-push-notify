@@ -1,6 +1,6 @@
 # FastAPI Push Notify 🔔
 
-Sistema de demostracion de uso de notificaciones push para navegadores web usando FastAPI, Service Workers y la API de Notificaciones Web, util para enviar notificaciones en tiempo real a usuarios.Aquí tienes la versión corregida en formato Markdown:
+Sistema de envío de notificaciones push a navegadores web usando FastAPI, Service Workers y la API de Notificaciones Web, util para enviar notificaciones en tiempo real a usuarios. Con fines demostrativos el sistema envia una notificacion cada 12 segundos a todos los subscritores. Se ha probado satisfactoriamente en los navegadores Chrome y Firefox.
 
 ## 🚀 Características  
 
@@ -11,12 +11,9 @@ Sistema de demostracion de uso de notificaciones push para navegadores web usand
 ## 🛠️ Tecnologías  
 
 - FastAPI  
-- Service Workers  
-- Web Push API  
-- SQLite  
-- Vue.js  
-- Pydantic  
-- WebSocket (opcional)  
+- Service Workers
+- Web Push API
+- Pydantic
 
 ## 📋 Prerrequisitos  
 
@@ -47,7 +44,7 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
-### Configurar variables de entorno  
+### Configurar variables de entorno
 
 ```bash
 cp .env.example .env
@@ -56,7 +53,7 @@ cp .env.example .env
 
 ## 🚀 Inicio Rápido  
 
-### Generar claves VAPID  
+### Generar claves VAPID
 
 1. Visita [https://vapidkeys.com/](https://vapidkeys.com/)  
 2. Genera y copia tus claves pública y privada  
@@ -74,24 +71,7 @@ VAPID_CLAIMS={"sub": "mailto:tu@email.com"}
 uvicorn app.main:app --reload
 ```
 
-Visitar [http://localhost:8000/docs](http://localhost:8000/docs)  
-
-
-## 🔐 Seguridad  
-
-- Implementación completa de VAPID  
-- Validación de tokens  
-- Rate limiting  
-- CORS configurado  
-- Headers de seguridad  
-
-## 🤝 Contribuir  
-
-1. Fork el proyecto  
-2. Crear una rama (`git checkout -b feature/AmazingFeature`)  
-3. Commit cambios (`git commit -m 'Add: nueva característica'`)  
-4. Push a la rama (`git push origin feature/AmazingFeature`)  
-5. Abrir Pull Request  
+Visitar [http://localhost:8000](http://localhost:8000)  
 
 ## 📄 Licencia  
 
