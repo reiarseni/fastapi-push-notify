@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Push Notifications con FastAPI</title>
+</head>
+<body>
+  <h1>Notificaciones Push</h1>
+  <p>Este ejemplo utiliza la Push API con un Service Worker.</p>
+  
+  <script>
+    // Verificar compatibilidad del navegador con Service Workers y Push API
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.register('/static/sw.js')
+      .then(function(registration) {
+        console.log('Service Worker registrado', registration);
+        return registration.pushManager.getSubscription()
+          .then(function(subscription) {
+            if (subscription) {
+              return subscription;
+            }
+            // Se utiliza la clave pública VAPID pasada desde el backend
+            const vapidPublicKey = "{{ vapid_public_key }}";
+            const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+            return registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidKey
+            });
+          });
+      })
+      .then(function(subscription) {
+        console.log('Suscripción obtenida:', subscription);
+        // Enviar la suscripción al backend
+        fetch('/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(subscription)
+        });
+      })
+      .catch(function(error) {
+        console.error('Error registrando el service worker o suscribiendo:', error);
+      });
+    } else {
+      console.warn('Push messaging no es soportado en este navegador');
+    }
+
+    // Función para convertir la clave VAPID de Base64 URL Safe a Uint8Array
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    }
+  </script>
+</body>
+</html>
+
